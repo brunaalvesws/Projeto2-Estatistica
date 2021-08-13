@@ -2,21 +2,18 @@
 # Define server logic required to draw a histogram
 server <- function(input, output) {
     ################### INPUT ####################
-    select_stock <- eventReactive(input$go, {
+    select_column <- eventReactive(input$go, {
         
-        stock_name <- input$stock
+        column_name <- input$column
         twin <- input$true_date
-        
-        # df_stock <- master_df %>% 
-        #    filter(Index == stock_name) 
-        ## FALTA -> FILTRAR O DF POR DATA!!
-        df_stock <- master_df 
-        return(df_stock)
+
+        df_column <- master_df 
+        return(df_column)
     })
     
     output$timedate <- renderUI({
         
-        stock_name <- input$stock
+        column_name <- input$column
         
         df <- master_df
         
@@ -34,7 +31,7 @@ server <- function(input, output) {
     
     output$timedate_comp <- renderUI({
         
-        stock_name <- input$stock_comp
+        column_name <- input$column_comp
         
         df <- master_df
         
@@ -69,10 +66,14 @@ server <- function(input, output) {
     
     ################ OUTPUT #####################
     Info_DataTable <- eventReactive(input$go,{
-        df <- select_stock()
-        stock_name <- input$stock
- 
-        vetor <- df[, c(stock_name)]
+        df <- select_column()
+        column_name <- input$column
+        twin <- input$true_date
+        
+        datacut <- df[df$Date >= twin[1] & df$Date <= twin[2],]
+        
+        vetor <- datacut[, c(column_name)]
+        
         
         Media <- mean(vetor)
         
@@ -83,9 +84,9 @@ server <- function(input, output) {
         Moda <- getmode(vetor)
 
         
-        Stock <- input$stock
+        Vacina <- input$column
         
-        df_tb <-  data.frame(Stock, Media, Mediana, DP, Moda)
+        df_tb <-  data.frame(Vacina, Media, Mediana, DP, Moda)
         
         df_tb <- as.data.frame(t(df_tb))
         
@@ -109,17 +110,19 @@ server <- function(input, output) {
     
     output$sh <- renderPlot({
         # All the inputs
-        df <- select_stock()
-        stock_name <- input$stock
+        df <- select_column()
+        column_name <- input$column
+        twin <- input$true_date
         
+        datacut <- df[df$Date >= twin[1] & df$Date <= twin[2],]
         
-        if (stock_name == "Doses_Administered"){
-            aux <- df$Doses_Administered %>% na.omit() %>% as.numeric()
+        if (column_name == "Doses_Administered"){
+            aux <- datacut$Doses_Administered %>% na.omit() %>% as.numeric()
             aux1 <- min(aux)
             aux2 <- max(aux)
             
-            df$Date <- ymd(df$Date)
-            a <- df %>% 
+            datacut$Date <- ymd(datacut$Date)
+            a <- datacut %>% 
                 ggplot(aes(Date, Doses_Administered, group=1)) +
                 geom_path() +
                 ylab('Doses Administradas') +
@@ -127,30 +130,30 @@ server <- function(input, output) {
                 theme_bw() +
                 scale_x_date(date_labels = "%Y-%m-%d")
         }
-        if (stock_name == "Doses_per_1000"){
-            aux <- df$Doses_per_1000 %>% na.omit() %>% as.numeric()
+        if (column_name == "Doses_per_1000"){
+            aux <- datacut$Doses_per_1000 %>% na.omit() %>% as.numeric()
             aux1 <- min(aux)
             aux2 <- max(aux)
             
-            df$Date <- ymd(df$Date)
-            a <- df %>% 
+            datacut$Date <- ymd(datacut$Date)
+            a <- datacut %>% 
                 ggplot(aes(Date, Doses_per_1000, group=1)) +
                 geom_path() +
-                ylab('Doses por 1000') +
+                ylab('Doses por 1000 habitantes') +
                 coord_cartesian(ylim = c(aux1, aux2)) +
                 theme_bw() +
                 scale_x_date(date_labels = "%Y-%m-%d")
         }
-        if (stock_name == "Fully_Vaccinated_Population"){
-            aux <- df$Fully_Vaccinated_Population %>% na.omit() %>% as.numeric()
+        if (column_name == "Fully_Vaccinated_Population"){
+            aux <- datacut$Fully_Vaccinated_Population %>% na.omit() %>% as.numeric()
             aux1 <- min(aux)
             aux2 <- max(aux)
             
-            df$Date <- ymd(df$Date)
-            a <- df %>% 
+            datacut$Date <- ymd(datacut$Date)
+            a <- datacut %>% 
                 ggplot(aes(Date, Fully_Vaccinated_Population, group=1)) +
                 geom_path() +
-                ylab('Porcentagem Com Vacinacao Completa') +
+                ylab('Porcentagem de Vacinação Completa') +
                 coord_cartesian(ylim = c(aux1, aux2)) +
                 theme_bw() +
                 scale_x_date(date_labels = "%Y-%m-%d")
