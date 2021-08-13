@@ -1,4 +1,4 @@
-setwd('~/Projeto2-Estatistica/shiny-project/shiny-project')
+setwd('~/ProjetoVacina/Projeto2-Estatistica/')
 
 source('global.R')
 source('ui.R')

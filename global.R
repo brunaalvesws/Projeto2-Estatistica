@@ -8,7 +8,7 @@ library(tidyverse)
 library(lubridate)
 
 master_df <- read.csv('world_time_series.csv')
-column_list <- c('Doses Administradas', 'Doses por 1000 habitantes', 'População completamente vacinada')
+column_list <- c('Doses Administradas', 'Doses por 1000 habitantes', 'Populacao completamente vacinada')
 
 master_df$X <- NULL
 
