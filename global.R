@@ -8,9 +8,9 @@ library(tidyverse)
 library(lubridate)
 
 master_df <- read.csv('world_time_series.csv')
-column_list <- c('Doses Administradas', 'Doses por 1000 habitantes', 'Populacao completamente vacinada')
+column_list <- c('Doses_Administered', 'Doses_per_1000', 'Fully_Vaccinated_Population')
 
 master_df$X <- NULL
 
 master_df <- master_df %>% drop_na()
-master_df$Date <- strptime(master_df$Date, format="%Y-%m-%d %H:%M:%S")
+master_df$Date <- strptime(master_df$Date, format="%Y-%m-%d")
