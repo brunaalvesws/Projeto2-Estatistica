@@ -25,8 +25,18 @@ body <- dashboardBody(
                     )
                 ),
                 fluidRow(
-                    box(title = "Série de Doses", width = 12, solidHeader = TRUE,
+                    box(title = "Gráfico de linha", width = 12, solidHeader = TRUE,
                         plotOutput('sh')
+                    )
+                ),
+                fluidRow(
+                    box(title = "Histograma", width = 12, solidHeader = TRUE,
+                        plotOutput('hist')
+                    )
+                ),
+                fluidRow(
+                    box(title = "BoxPlot", width = 12, solidHeader = TRUE,
+                        plotOutput('box')
                     )
                 ),
         ),

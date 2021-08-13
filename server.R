@@ -143,6 +143,7 @@ server <- function(input, output) {
                 coord_cartesian(ylim = c(aux1, aux2)) +
                 theme_bw() +
                 scale_x_date(date_labels = "%Y-%m-%d")
+        
         }
         if (column_name == "Fully_Vaccinated_Population"){
             aux <- datacut$Fully_Vaccinated_Population %>% na.omit() %>% as.numeric()
@@ -157,8 +158,105 @@ server <- function(input, output) {
                 coord_cartesian(ylim = c(aux1, aux2)) +
                 theme_bw() +
                 scale_x_date(date_labels = "%Y-%m-%d")
+            p <- datacut %>% 
+                ggplot(aes(Fully_Vaccinated_Population)) + 
+                geom_histogram(color="black", fill="white") +
+                theme_bw()
         }
 
         a
+        
+    })
+    output$hist <- renderPlot({
+        # All the inputs
+        df <- select_column()
+        column_name <- input$column
+        twin <- input$true_date
+        
+        datacut <- df[df$Date >= twin[1] & df$Date <= twin[2],]
+        
+        if (column_name == "Doses_Administered"){
+            aux <- datacut$Doses_Administered %>% na.omit() %>% as.numeric()
+            aux1 <- min(aux)
+            aux2 <- max(aux)
+            
+            datacut$Date <- ymd(datacut$Date)
+            p <- datacut %>% 
+                ggplot(aes(Doses_Administered)) + 
+                geom_histogram(color="black", fill="white") +
+                theme_bw() +
+                labs(x="Frequência", y = "Doses administradas")
+        }
+        if (column_name == "Doses_per_1000"){
+            aux <- datacut$Doses_per_1000 %>% na.omit() %>% as.numeric()
+            aux1 <- min(aux)
+            aux2 <- max(aux)
+            
+            datacut$Date <- ymd(datacut$Date)
+            p <- datacut %>% 
+                ggplot(aes(Doses_per_1000)) + 
+                geom_histogram(color="black", fill="white") +
+                theme_bw() +
+                labs(x="Frequência", y = "Doses por 1000 habitantes")
+            
+        }
+        if (column_name == "Fully_Vaccinated_Population"){
+            aux <- datacut$Fully_Vaccinated_Population %>% na.omit() %>% as.numeric()
+            aux1 <- min(aux)
+            aux2 <- max(aux)
+            
+            datacut$Date <- ymd(datacut$Date)
+            p <- datacut %>% 
+                ggplot(aes(Fully_Vaccinated_Population)) + 
+                geom_histogram(color="black", fill="white") +
+                theme_bw() +
+                labs(x="Frequência", y = "Procentagem de Vacinação Completa")
+        }
+        
+        p
+        
+    })
+    output$box <- renderPlot({
+        # All the inputs
+        df <- select_column()
+        column_name <- input$column
+        twin <- input$true_date
+        
+        datacut <- df[df$Date >= twin[1] & df$Date <= twin[2],]
+        
+        if (column_name == "Doses_Administered"){
+            aux <- datacut$Doses_Administered %>% na.omit() %>% as.numeric()
+            aux1 <- min(aux)
+            aux2 <- max(aux)
+            
+            datacut$Date <- as.factor(datacut$Date)
+            b <- datacut %>% 
+                ggplot(aes(x=Date, y=Doses_Administered)) + 
+                geom_boxplot()
+        }
+        if (column_name == "Doses_per_1000"){
+            aux <- datacut$Doses_per_1000 %>% na.omit() %>% as.numeric()
+            aux1 <- min(aux)
+            aux2 <- max(aux)
+            
+            datacut$Date <- as.factor(datacut$Date)
+            b <- datacut %>% 
+                ggplot(aes(x=Date, y=Doses_per_1000)) + 
+                geom_boxplot()
+            
+        }
+        if (column_name == "Fully_Vaccinated_Population"){
+            aux <- datacut$Fully_Vaccinated_Population %>% na.omit() %>% as.numeric()
+            aux1 <- min(aux)
+            aux2 <- max(aux)
+            
+            datacut$Date <- as.factor(datacut$Date)
+            b <- datacut %>% 
+                ggplot(aes(x=Date, y=Fully_Vaccinated_Population)) + 
+                geom_boxplot()
+        }
+        
+        b
+        
     })
 }
