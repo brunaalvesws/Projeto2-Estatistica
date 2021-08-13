@@ -183,7 +183,7 @@ server <- function(input, output) {
             datacut$Date <- ymd(datacut$Date)
             p <- datacut %>% 
                 ggplot(aes(Doses_Administered)) + 
-                geom_histogram(color="black", fill="white") +
+                geom_histogram(color="black", fill="blue") +
                 theme_bw() +
                 labs(x="Frequência", y = "Doses administradas")
         }
@@ -195,7 +195,7 @@ server <- function(input, output) {
             datacut$Date <- ymd(datacut$Date)
             p <- datacut %>% 
                 ggplot(aes(Doses_per_1000)) + 
-                geom_histogram(color="black", fill="white") +
+                geom_histogram(color="black", fill="blue") +
                 theme_bw() +
                 labs(x="Frequência", y = "Doses por 1000 habitantes")
             
@@ -208,7 +208,7 @@ server <- function(input, output) {
             datacut$Date <- ymd(datacut$Date)
             p <- datacut %>% 
                 ggplot(aes(Fully_Vaccinated_Population)) + 
-                geom_histogram(color="black", fill="white") +
+                geom_histogram(color="black", fill="blue") +
                 theme_bw() +
                 labs(x="Frequência", y = "Procentagem de Vacinação Completa")
         }
@@ -222,37 +222,24 @@ server <- function(input, output) {
         column_name <- input$column
         twin <- input$true_date
         
+        df[, "week"] <- as.factor(week(df[,"Date"]))
+
         datacut <- df[df$Date >= twin[1] & df$Date <= twin[2],]
         
         if (column_name == "Doses_Administered"){
-            aux <- datacut$Doses_Administered %>% na.omit() %>% as.numeric()
-            aux1 <- min(aux)
-            aux2 <- max(aux)
-            
-            datacut$Date <- as.factor(datacut$Date)
             b <- datacut %>% 
-                ggplot(aes(x=Date, y=Doses_Administered)) + 
+                ggplot(aes(x=week, y=Doses_Administered)) + 
                 geom_boxplot()
         }
         if (column_name == "Doses_per_1000"){
-            aux <- datacut$Doses_per_1000 %>% na.omit() %>% as.numeric()
-            aux1 <- min(aux)
-            aux2 <- max(aux)
-            
-            datacut$Date <- as.factor(datacut$Date)
             b <- datacut %>% 
-                ggplot(aes(x=Date, y=Doses_per_1000)) + 
+                ggplot(aes(x=week, y=Doses_per_1000)) + 
                 geom_boxplot()
             
         }
         if (column_name == "Fully_Vaccinated_Population"){
-            aux <- datacut$Fully_Vaccinated_Population %>% na.omit() %>% as.numeric()
-            aux1 <- min(aux)
-            aux2 <- max(aux)
-            
-            datacut$Date <- as.factor(datacut$Date)
             b <- datacut %>% 
-                ggplot(aes(x=Date, y=Fully_Vaccinated_Population)) + 
+                ggplot(aes(x=week, y=Fully_Vaccinated_Population)) + 
                 geom_boxplot()
         }
         
