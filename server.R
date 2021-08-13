@@ -111,6 +111,8 @@ server <- function(input, output) {
         # All the inputs
         df <- select_stock()
         stock_name <- input$stock
+        
+        
         if (stock_name == "Doses_Administered"){
             aux <- df$Doses_Administered %>% na.omit() %>% as.numeric()
             aux1 <- min(aux)
@@ -120,7 +122,7 @@ server <- function(input, output) {
             a <- df %>% 
                 ggplot(aes(Date, Doses_Administered, group=1)) +
                 geom_path() +
-                ylab('Preço da Ação em $') +
+                ylab('Doses Administradas') +
                 coord_cartesian(ylim = c(aux1, aux2)) +
                 theme_bw() +
                 scale_x_date(date_labels = "%Y-%m-%d")
@@ -134,7 +136,7 @@ server <- function(input, output) {
             a <- df %>% 
                 ggplot(aes(Date, Doses_per_1000, group=1)) +
                 geom_path() +
-                ylab('Preço da Ação em $') +
+                ylab('Doses por 1000') +
                 coord_cartesian(ylim = c(aux1, aux2)) +
                 theme_bw() +
                 scale_x_date(date_labels = "%Y-%m-%d")
@@ -148,7 +150,7 @@ server <- function(input, output) {
             a <- df %>% 
                 ggplot(aes(Date, Fully_Vaccinated_Population, group=1)) +
                 geom_path() +
-                ylab('Preço da Ação em $') +
+                ylab('Porcentagem Com Vacinacao Completa') +
                 coord_cartesian(ylim = c(aux1, aux2)) +
                 theme_bw() +
                 scale_x_date(date_labels = "%Y-%m-%d")
