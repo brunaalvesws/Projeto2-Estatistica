@@ -157,7 +157,7 @@ server <- function(input, output) {
         datacut$Date <- ymd(datacut$Date)
         a <- datacut %>% 
             ggplot(aes_string("Date", toString(column_name), group='1')) +
-            geom_path() +
+            geom_path(color="#069808", fill="#A40E0E") +
             ylab(toString(column_name)) +
             coord_cartesian(ylim = c(aux1, aux2)) +
             theme_bw() +
