@@ -47,7 +47,13 @@ body <- dashboardBody(
                         uiOutput("timedate_comp"),
                         actionButton('go_comp', 'Submeter')
                     )
-                ),            
+                ),  
+                fluidRow(
+                    box(title = "Gráfico de linha", width = 12, solidHeader = TRUE,
+                        plotOutput('comp_sh1'),
+                        plotOutput('comp_sh2')
+                    )
+                ),
         )
     )
 )

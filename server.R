@@ -3,10 +3,11 @@
 server <- function(input, output) {
     ################### INPUT ####################
     select_column <- eventReactive(input$go, {
-        
-        column_name <- input$column
-        twin <- input$true_date
-
+        df_column <- master_df 
+        return(df_column)
+    })
+    
+    select_column_comp <- eventReactive(input$go_comp, {
         df_column <- master_df 
         return(df_column)
     })
@@ -74,20 +75,14 @@ server <- function(input, output) {
         
         vetor <- datacut[, c(column_name)]
         
-        
         Media <- mean(vetor)
-        
         Mediana <- median(vetor)
-
         DP <- sd(vetor)
-
         Moda <- getmode(vetor)
-
         
         Vacina <- input$column
         
         df_tb <-  data.frame(Vacina, Media, Mediana, DP, Moda)
-        
         df_tb <- as.data.frame(t(df_tb))
         
         # tb  <- as_tibble(cbind(nms = names(df_tb), t(df_tb)))
@@ -124,7 +119,7 @@ server <- function(input, output) {
         a <- datacut %>% 
             ggplot(aes_string("Date", toString(column_name), group='1')) +
             geom_path() +
-            ylab('Doses Administradas') +
+            ylab(toString(column_name)) +
             coord_cartesian(ylim = c(aux1, aux2)) +
             theme_bw() +
             scale_x_date(date_labels = "%Y-%m-%d")
@@ -149,7 +144,7 @@ server <- function(input, output) {
             ggplot(aes_string(toString(column_name))) + 
             geom_histogram(color="black", fill="blue") +
             theme_bw() +
-            labs(x="Frequência", y = "Procentagem de Vacinação Completa")
+            labs(x="Frequência", toString(column_name))
         
         p
     })
@@ -166,5 +161,57 @@ server <- function(input, output) {
             ggplot(aes_string(x="week", y=toString(column_name))) + 
             geom_boxplot()
         b
+    })
+    
+    output$comp_sh1 <- renderPlot({
+        # All the inputs
+        column_names <- input$column_comp
+        if (!is.null(column_names)){
+            df <- select_column_comp()
+            twin <- input$true_date_comp
+            
+            datacut <- df[df$Date >= twin[1] & df$Date <= twin[2],]
+            
+            aux <- datacut[, column_names[1]] %>% na.omit() %>% as.numeric()
+            aux1 <- min(aux)
+            aux2 <- max(aux)
+            datacut$Date <- ymd(datacut$Date)
+            
+            a <- datacut %>% 
+                ggplot(aes_string("Date", toString(column_names[1]), group='1')) +
+                geom_path() +
+                ylab(toString(column_names[1])) +
+                coord_cartesian(ylim = c(aux1, aux2)) +
+                theme_bw() +
+                scale_x_date(date_labels = "%Y-%m-%d")
+            
+            a
+        }
+    })
+    
+    output$comp_sh2 <- renderPlot({
+        # All the inputs
+        column_names <- input$column_comp
+        if (length(column_names) > 1){
+            df <- select_column_comp()
+            twin <- input$true_date_comp
+            
+            datacut <- df[df$Date >= twin[1] & df$Date <= twin[2],]
+            
+            aux <- datacut[, column_names[2]] %>% na.omit() %>% as.numeric()
+            aux1 <- min(aux)
+            aux2 <- max(aux)
+            datacut$Date <- ymd(datacut$Date)
+            
+            a <- datacut %>% 
+                ggplot(aes_string("Date", toString(column_names[2]), group='1')) +
+                geom_path() +
+                ylab(toString(column_names[2])) +
+                coord_cartesian(ylim = c(aux1, aux2)) +
+                theme_bw() +
+                scale_x_date(date_labels = "%Y-%m-%d")
+            
+            a
+        }
     })
 }
