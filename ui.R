@@ -49,6 +49,11 @@ body <- dashboardBody(
                     )
                 ),  
                 fluidRow(
+                    box(title = "Correlacao entre as colunas", width = 12, solidHeader = TRUE,
+                        DTOutput('info_comp')
+                    )
+                ),
+                fluidRow(
                     box(title = "Gráfico de linha", width = 12, solidHeader = TRUE,
                         plotOutput('comp_sh1'),
                         plotOutput('comp_sh2')

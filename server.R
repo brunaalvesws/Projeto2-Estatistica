@@ -103,6 +103,45 @@ server <- function(input, output) {
             ))
     })
     
+    ################ OUTPUT COMP #####################
+    Info_DataTable_COMP <- eventReactive(input$go_comp,{
+        df <- select_column_comp()
+        column_names <- input$column_comp
+        twin <- input$true_date
+        
+        datacut <- df[df$Date >= twin[1] & df$Date <= twin[2],]
+        
+        vetor_1 <- datacut[, c(column_names[1])]
+        vetor_2 <- datacut[, c(column_names[2])]
+        
+        correlacao <- cor(vetor_1, vetor_2)
+        
+        colunas <- paste(column_names[1], column_names[2], sep = ' x ')
+        
+        df_tb <-  data.frame(colunas, correlacao)
+        df_tb <- as.data.frame(t(df_tb))
+        
+        # tb  <- as_tibble(cbind(nms = names(df_tb), t(df_tb)))
+        # tb <- tb %>% 
+        #     rename('Informações' = nms,
+        #            'Valores' = V2)
+        # 
+        return(df_tb)
+    })
+    
+    output$info_comp <- renderDT({
+        column_names <- input$column_comp
+        if (length(column_names)>1){
+            Info_DataTable_COMP() %>%
+                as.data.frame() %>% 
+                DT::datatable(options=list(
+                    language=list(
+                        url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Portuguese-Brasil.json'
+                    )
+                ))
+        }
+    })
+    
     output$sh <- renderPlot({
         # All the inputs
         df <- select_column()
