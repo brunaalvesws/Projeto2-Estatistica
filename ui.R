@@ -64,6 +64,11 @@ body <- dashboardBody(
                         plotOutput('bar_med')
                     )
                 ),
+                fluidRow(
+                    box(title = "Scatterplot", width = 12, solidHeader = TRUE,
+                        plotOutput('scatter')
+                    )
+                )
         )
     )
 )

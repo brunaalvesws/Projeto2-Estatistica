@@ -280,4 +280,23 @@ server <- function(input, output) {
             b   
         }
     })
+    output$scatter <- renderPlot({
+        # All the inputs
+        column_names <- input$column_comp
+        if (length(column_names)>1){
+            df <- select_column_comp()
+            twin <- input$true_date_comp
+            
+            datacut <- df[df$Date >= twin[1] & df$Date <= twin[2],]
+            
+            datacut$Date <- ymd(datacut$Date)
+            
+            cor <- rgb(0,1,0)
+            
+            s <- datacut %>% 
+                ggplot(aes_string(x=column_names[1], y=column_names[2])) + 
+                geom_point(size=4)
+            s
+        }
+    })
 }

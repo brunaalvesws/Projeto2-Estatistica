@@ -7,6 +7,7 @@ library(DT)
 library(tidyverse)
 library(lubridate)
 library(RColorBrewer)
+library(hrbrthemes)
 
 
 master_df <- read.csv('world_time_series.csv')
