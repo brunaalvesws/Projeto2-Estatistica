@@ -54,9 +54,14 @@ body <- dashboardBody(
                     )
                 ),
                 fluidRow(
-                    box(title = "Gráfico de linha", width = 12, solidHeader = TRUE,
+                    box(title = "Gráficos de linha", width = 12, solidHeader = TRUE,
                         plotOutput('comp_sh1'),
                         plotOutput('comp_sh2')
+                    )
+                ),
+                fluidRow(
+                    box(title = "Grafico de barra das medias", width = 12, solidHeader = TRUE,
+                        plotOutput('bar_med')
                     )
                 ),
         )

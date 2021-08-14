@@ -253,4 +253,31 @@ server <- function(input, output) {
             a
         }
     })
+    output$bar_med <- renderPlot({
+        # All the inputs
+        column_names <- input$column_comp
+        if (length(column_names)>1){
+            df <- select_column_comp()
+            twin <- input$true_date_comp
+            
+            datacut <- df[df$Date >= twin[1] & df$Date <= twin[2],]
+            
+            datacut$Date <- ymd(datacut$Date)
+            
+            vetor_1 <- datacut[, c(column_names[1])]
+            vetor_2 <- datacut[, c(column_names[2])]
+            
+            Media_1 <- mean(vetor_1)
+            Media_2 <- mean(vetor_2)
+            
+            columns <- c(column_names[1], column_names[2])
+            medians <- c(Media_1, Media_2)
+            coul <- brewer.pal(2, "Set2")
+            aux <- data.frame(columns, medians)
+             
+            
+            b <- barplot(height=aux$medians, names=aux$column, col=coul)
+            b   
+        }
+    })
 }
