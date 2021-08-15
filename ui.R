@@ -74,5 +74,5 @@ body <- dashboardBody(
 )
 
 ui <- dashboardPage(
-    skin = 'blue',
+    skin = 'green',
     header, sidebar, body)

@@ -157,7 +157,7 @@ server <- function(input, output) {
         datacut$Date <- ymd(datacut$Date)
         a <- datacut %>% 
             ggplot(aes_string("Date", toString(column_name), group='1')) +
-            geom_path(color="#069808", fill="#A40E0E") +
+            geom_path(color="#069808", size=1.5, alpha=0.8) +
             ylab(toString(column_name)) +
             coord_cartesian(ylim = c(aux1, aux2)) +
             theme_bw() +
@@ -181,7 +181,7 @@ server <- function(input, output) {
         datacut$Date <- ymd(datacut$Date)
         p <- datacut %>% 
             ggplot(aes_string(toString(column_name))) + 
-            geom_histogram(color="black", fill="blue") +
+            geom_histogram(color="black", aes(fill=..count..),binwidth=70000000)+
             theme_bw() +
             labs(x="Frequência", toString(column_name))
         
@@ -198,7 +198,7 @@ server <- function(input, output) {
         datacut <- df[df$Date >= twin[1] & df$Date <= twin[2],]
         b <- datacut %>% 
             ggplot(aes_string(x="week", y=toString(column_name))) + 
-            geom_boxplot()
+            geom_boxplot(color="black",fill="#F35704", size=0.2, alpha=0.9)
         b
     })
     
@@ -218,7 +218,7 @@ server <- function(input, output) {
             
             a <- datacut %>% 
                 ggplot(aes_string("Date", toString(column_names[1]), group='1')) +
-                geom_path() +
+                geom_path(color="#DA0606", size=1.5, alpha=2) +
                 ylab(toString(column_names[1])) +
                 coord_cartesian(ylim = c(aux1, aux2)) +
                 theme_bw() +
@@ -244,7 +244,7 @@ server <- function(input, output) {
             
             a <- datacut %>% 
                 ggplot(aes_string("Date", toString(column_names[2]), group='1')) +
-                geom_path() +
+                geom_path(color="#FF4000", size=1.5, alpha=0.9) +
                 ylab(toString(column_names[2])) +
                 coord_cartesian(ylim = c(aux1, aux2)) +
                 theme_bw() +
@@ -295,7 +295,7 @@ server <- function(input, output) {
             
             s <- datacut %>% 
                 ggplot(aes_string(x=column_names[1], y=column_names[2])) + 
-                geom_point(size=4)
+                geom_point(size=4,color="#05579A")
             s
         }
     })
