@@ -5,7 +5,7 @@ header <- dashboardHeader(title = "Projeto de Estatística")
 sidebar <- dashboardSidebar(
     sidebarMenu(
         menuItem("Métricas", tabName = "m", icon = icon("chart-line")),
-        menuItem('Comparando a Vacinação', tabName = 'comp', icon = icon('chart-bar'))
+        menuItem('Comparando séries', tabName = 'comp', icon = icon('chart-bar'))
     )
 )
 
@@ -14,13 +14,13 @@ body <- dashboardBody(
         tabItem(tabName = 'm',
                 fluidRow(
                     box(title = 'Selecione suas opções', width=12, solidHeader = TRUE, status='warning',
-                        selectInput('column', 'Tipo de Vacinação', column_list, multiple=FALSE),
+                        selectInput('column', 'Tipos de Dados', column_list, multiple=FALSE),
                         uiOutput("timedate"),
                         actionButton('go', 'Submeter')
                         )
                 ),
                 fluidRow(
-                    box(title = "Informações sobre a vacinação", width = 12, solidHeader = TRUE,
+                    box(title = "Informações sobre os dados escolhidos", width = 12, solidHeader = TRUE,
                         DTOutput('info')
                     )
                 ),
@@ -43,13 +43,13 @@ body <- dashboardBody(
         tabItem(tabName = 'comp',
                 fluidRow(
                     box(title = 'Selecione suas opções', width=12, solidHeader = TRUE, status='warning',
-                        selectInput('column_comp', 'Vacinação', column_list, multiple=TRUE),
+                        selectInput('column_comp', 'Dados', column_list, multiple=TRUE),
                         uiOutput("timedate_comp"),
                         actionButton('go_comp', 'Submeter')
                     )
                 ),  
                 fluidRow(
-                    box(title = "Correlacao entre as colunas", width = 12, solidHeader = TRUE,
+                    box(title = "Correlação entre as colunas", width = 12, solidHeader = TRUE,
                         DTOutput('info_comp')
                     )
                 ),

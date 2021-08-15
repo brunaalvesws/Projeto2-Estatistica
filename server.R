@@ -85,11 +85,7 @@ server <- function(input, output) {
         df_tb <-  data.frame(Vacina, Media, Mediana, DP, Moda)
         df_tb <- as.data.frame(t(df_tb))
         
-        # tb  <- as_tibble(cbind(nms = names(df_tb), t(df_tb)))
-        # tb <- tb %>% 
-        #     rename('Informações' = nms,
-        #            'Valores' = V2)
-        # 
+        
         return(df_tb)
     })
     
@@ -121,11 +117,6 @@ server <- function(input, output) {
         df_tb <-  data.frame(colunas, correlacao)
         df_tb <- as.data.frame(t(df_tb))
         
-        # tb  <- as_tibble(cbind(nms = names(df_tb), t(df_tb)))
-        # tb <- tb %>% 
-        #     rename('Informações' = nms,
-        #            'Valores' = V2)
-        # 
         return(df_tb)
     })
     
