@@ -157,7 +157,7 @@ server <- function(input, output) {
         datacut$Date <- ymd(datacut$Date)
         a <- datacut %>% 
             ggplot(aes_string("Date", toString(column_name), group='1')) +
-            geom_path(color="#069808", size=1.5, alpha=0.8) +
+            geom_path(color="#069808", size=1, alpha=0.8) +
             ylab(toString(column_name)) +
             coord_cartesian(ylim = c(aux1, aux2)) +
             theme_bw() +
@@ -193,11 +193,11 @@ server <- function(input, output) {
         column_name <- input$column
         twin <- input$true_date
         
-        df[, "week"] <- as.factor(format(df[,"Date"], "%Y-%m"))
+        df[, "month"] <- as.factor(format(df[,"Date"], "%Y-%m"))
 
         datacut <- df[df$Date >= twin[1] & df$Date <= twin[2],]
         b <- datacut %>% 
-            ggplot(aes_string(x="week", y=toString(column_name))) + 
+            ggplot(aes_string(x="month", y=toString(column_name))) + 
             geom_boxplot(color="black",fill="#F35704", size=0.2, alpha=0.9)
         b
     })
@@ -218,7 +218,7 @@ server <- function(input, output) {
             
             a <- datacut %>% 
                 ggplot(aes_string("Date", toString(column_names[1]), group='1')) +
-                geom_path(color="#DA0606", size=1.5, alpha=2) +
+                geom_path(color="#DA0606", size=1, alpha=2) +
                 ylab(toString(column_names[1])) +
                 coord_cartesian(ylim = c(aux1, aux2)) +
                 theme_bw() +
