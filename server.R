@@ -244,7 +244,7 @@ server <- function(input, output) {
             
             a <- datacut %>% 
                 ggplot(aes_string("Date", toString(column_names[2]), group='1')) +
-                geom_path(color="#FF4000", size=1.5, alpha=0.9) +
+                geom_path(color="#FF4000", size=1, alpha=0.9) +
                 ylab(toString(column_names[2])) +
                 coord_cartesian(ylim = c(aux1, aux2)) +
                 theme_bw() +
