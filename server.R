@@ -193,7 +193,7 @@ server <- function(input, output) {
         column_name <- input$column
         twin <- input$true_date
         
-        df[, "week"] <- as.factor(week(df[,"Date"]))
+        df[, "week"] <- as.factor(format(df[,"Date"], "%Y-%m"))
 
         datacut <- df[df$Date >= twin[1] & df$Date <= twin[2],]
         b <- datacut %>% 
