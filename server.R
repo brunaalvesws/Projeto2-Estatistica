@@ -181,7 +181,7 @@ server <- function(input, output) {
         datacut$Date <- ymd(datacut$Date)
         p <- datacut %>% 
             ggplot(aes_string(toString(column_name))) + 
-            geom_histogram(color="black", aes(fill=..count..),binwidth=70000000)+
+            geom_histogram(color="black", aes(fill=..count..))+
             theme_bw() +
             labs(x="Frequência", toString(column_name))
         
