@@ -295,7 +295,7 @@ server <- function(input, output) {
             
             s <- datacut %>% 
                 ggplot(aes_string(x=column_names[1], y=column_names[2])) + 
-                geom_point(size=4,color="#05579A")
+                geom_point(size=2,color="#05579A")
             s
         }
     })
