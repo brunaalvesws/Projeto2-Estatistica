@@ -80,9 +80,9 @@ server <- function(input, output) {
         DP <- sd(vetor)
         Moda <- getmode(vetor)
         
-        Vacina <- input$column
+        Dados <- input$column
         
-        df_tb <-  data.frame(Vacina, Media, Mediana, DP, Moda)
+        df_tb <-  data.frame(Dados, Media, Mediana, DP, Moda)
         df_tb <- as.data.frame(t(df_tb))
         
         
